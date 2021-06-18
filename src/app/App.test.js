@@ -7,5 +7,5 @@ test('renders app', () => {
 });
 
 test('imports data from datasource', () => {
-    
+    render(<App />);
 });
