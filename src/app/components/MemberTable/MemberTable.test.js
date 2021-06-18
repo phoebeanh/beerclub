@@ -9,6 +9,6 @@ describe('<MemberTable />', () => {
     
     const memberTable = screen.getByTestId('MemberTable');
 
-    expect(memberTable).toBeInTheDocument();
+    expect(memberTable).toBeDefined();
   });
 });
