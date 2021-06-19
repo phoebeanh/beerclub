@@ -5,7 +5,12 @@ import MemberRow from './MemberRow/MemberRow';
 
 class MemberTable extends Component {
 
-  render() {  
+  render() {
+    const memberRows = this.props.members.map(member => 
+      <MemberRow key={member.name}
+      member={member.name} 
+      totalConsumption={this.findMemberConsumptionTotal(member)} 
+      setActiveMember={this.props.setActiveMember}/>);
     return(
       <div className="MemberTable">
         {/* Table Layout of Consumption per Member */}
@@ -17,15 +22,23 @@ class MemberTable extends Component {
             </tr>
           </thead>
           <tbody>
-            <MemberRow 
-              member={this.props.members} 
-              totalConsumption={this.props.memberConsumptionTotal} 
-              setActiveMember={this.props.setActiveMember} />
+            {memberRows}
           </tbody>
         </Table>
       </div>
     );
   }
+
+  /**
+   * 
+   * Find all relevant beer consumption points for each user
+   */
+     findMemberConsumptionTotal = (member) => {
+       if (member && this.props.data.length > 0) {
+         return this.props.data.filter(h => h.member === member.name).length;
+       }
+      return 0;
+    }
 }
 
 export default MemberTable;

@@ -7,7 +7,8 @@ class MemberChart extends Component {
     super(props);
 
     this.state = {
-      memberData: [['Beer Style', 'Amount']]
+      memberData: [
+      ]
     }
   }
 
@@ -15,23 +16,22 @@ class MemberChart extends Component {
     this.renderMemberData();
   }
 
-  renderMemberData = async() => {
-    setTimeout(3000);
+  renderMemberData = () => {
+    //initially it is just the headers 
+    this.setState({memberData: ['Beer Style', 'Amount']})
     let data = [];
     //added default column headers
     data.push(['Beer Style', 'Amount']);
 
     //find all relevant beer datapoint for active user and separate into
     //categories based on beer style
-    for (var beer in this.props.beers) {
-      let count = 0;
-      for (var n in this.props.data) {
-          if (n.member === this.props.selectedMember && n["beer-style"] === beer) {
-            count++;
-          }
-      }
-      data.push([beer, count]);
-    }
+    this.props.beers.map((beer) => {
+      let count = this.props.data.filter(h => 
+        h.member === this.props.activeMember &&
+        h['beer-style'] === beer.name).length;
+      data.push([beer.name, count]);
+      return count;
+    });
     this.setState({memberData: data});
   }
 
@@ -45,7 +45,7 @@ class MemberChart extends Component {
           loader={<div>Loading Chart</div>}
           data={this.state.memberData}
           options={{
-            title: 'Beer Style',
+            title: 'Beer Styles of ' + this.props.activeMember,
             colors: ['#008F8F', '#058f00', '#70008f'],
           }}
           rootProps={{ 'data-testid': '1' }}
