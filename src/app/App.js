@@ -47,7 +47,7 @@ class App extends Component {
                 setActiveMember={this.setActiveMember}/>
               </td>
               <td><MemberChart 
-                activeMember = {this.state.selectedMember}
+                activeMember={this.state.selectedMember}
                 data={this.state.data} 
                 beers={this.state.beers}/>
               </td>
@@ -59,6 +59,7 @@ class App extends Component {
   }
   
   setActiveMember = (member) => {
+    console.log('set ', member);
     this.setState({selectedMember: member})
   }
 
@@ -106,7 +107,5 @@ class App extends Component {
     }, 1000);
   }
 }
-
-
 
 export default App;

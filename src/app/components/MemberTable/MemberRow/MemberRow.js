@@ -8,16 +8,15 @@ class MemberRow extends Component {
    */
   setActive = (e) => {
     e.preventDefault();
-    console.log('boop!');
     this.props.setActiveMember(this.props.member);
   };
 
   render() {
     return (
-      <tr id="member-row" onClick={this.setActive}>
-        <td className="member">{this.props.member}</td>
-        <td className="member">{this.props.totalConsumption}</td>
-      </tr>
+        <tr className="member-row" onClick={this.setActive}>
+          <td className="member">{this.props.member}</td>
+          <td className="member">{this.props.totalConsumption}</td>
+        </tr>
     );
   }
 }

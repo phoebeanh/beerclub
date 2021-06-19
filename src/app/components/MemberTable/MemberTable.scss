@@ -1,3 +1,9 @@
-.MemberTable {
+.member-table {
     text-align: center;
+}
+
+.member-row :hover {
+    transition: ease-in 0.2ms;
+    background-color: lightgray ;
+    cursor: pointer;
 }

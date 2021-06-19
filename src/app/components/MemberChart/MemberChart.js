@@ -7,21 +7,24 @@ class MemberChart extends Component {
     super(props);
 
     this.state = {
-      memberData: [
-      ]
-    }
+      chart: null,
+      chartData: []
+    };
+    
   }
 
   componentDidMount() {
-    this.renderMemberData();
+    setTimeout( () => {
+      this.renderChartData();    
+    }, 4000);
   }
 
-  renderMemberData = () => {
-    //initially it is just the headers 
-    this.setState({memberData: ['Beer Style', 'Amount']})
+  renderChartData = async () => {
+    console.log('render chart data');
     let data = [];
     //added default column headers
-    data.push(['Beer Style', 'Amount']);
+    const chartHeaders = ['Beer Style', 'Amount'];
+    data.push(chartHeaders);
 
     //find all relevant beer datapoint for active user and separate into
     //categories based on beer style
@@ -32,24 +35,30 @@ class MemberChart extends Component {
       data.push([beer.name, count]);
       return count;
     });
-    this.setState({memberData: data});
+
+    this.setState({chartData: data});
+
   }
 
-  render() {  
-    return(
-      <div className="MemberChart" data-testid="MemberChart">
-        <Chart
-          width={'500px'}
-          height={'500px'}
-          chartType="PieChart"
-          loader={<div>Loading Chart</div>}
-          data={this.state.memberData}
-          options={{
-            title: 'Beer Styles of ' + this.props.activeMember,
-            colors: ['#008F8F', '#058f00', '#70008f'],
-          }}
-          rootProps={{ 'data-testid': '1' }}
-        />
+  render() {
+    var chart = <Chart
+      key={this.props.activeMember}
+      width={'500px'}
+      height={'500px'}
+      chartType="PieChart"
+      loader={<div>Loading Chart...</div>}
+      data={this.state.chartData}
+      options={{
+        title: 'Beer Styles of ' + this.props.activeMember,
+        colors: ['#008F8F', '#058f00', '#70008f'],
+      }}
+      rootProps={{ 'data-testid': '1' }}/>;
+
+    if (this.props.activeMember === '' && !this.props.data)
+      return(<div> Still loading chart...</div>);
+    return( 
+      <div className="member-chart" data-testid="MemberChart">
+        {chart}
       </div>
     );
   }
