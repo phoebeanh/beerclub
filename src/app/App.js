@@ -59,7 +59,6 @@ class App extends Component {
   }
   
   setActiveMember = (member) => {
-    console.log('set ', member);
     this.setState({selectedMember: member})
   }
 

@@ -1,27 +1,57 @@
 import React, { Component } from 'react';
-import Chart from 'react-google-charts';
 import './MemberChart.scss';
+import Chart from 'react-google-charts';
+
+class LoadWrapper extends Component {
+  render() {
+    if (this.props.loading) {
+      return <>Loading...</>;
+    } else if (this.props.error) {
+      return <>Error....</>;
+    } else {
+      return <>{this.props.children}</>;
+    }
+  }
+}
 
 class MemberChart extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      chart: null,
-      chartData: []
+      loading: true
     };
-    
   }
-
   componentDidMount() {
-    setTimeout( () => {
-      this.renderChartData();    
-    }, 4000);
+    setTimeout(() => {
+      this.setState({
+        loading: false
+      });
+    }, 3000);
   }
 
-  renderChartData = async () => {
-    console.log('render chart data');
+  getChart = () => {
+    return (
+        <Chart
+        key={this.props.activeMember}
+        width={'500px'}
+        height={'500px'}
+        chartType="PieChart"
+        loader={<div>Loading Chart...</div>}
+        data={this.renderChartData()}
+        options={{
+          title: 'Beer Styles of ' + this.props.activeMember,
+          colors: ['#008F8F', '#058f00', '#70008f'],
+        }}
+        rootProps={{ 'data-testid': '1' }}
+        chartWrapperParams={{ view: { columns: [0, 1] } }}
+        chartPackages={['corechart', 'controls']}
+        />
+    );
+  }
+
+  renderChartData = () => {
     let data = [];
+
     //added default column headers
     const chartHeaders = ['Beer Style', 'Amount'];
     data.push(chartHeaders);
@@ -36,32 +66,17 @@ class MemberChart extends Component {
       return count;
     });
 
-    this.setState({chartData: data});
-
+    return data;
   }
 
   render() {
-    var chart = <Chart
-      key={this.props.activeMember}
-      width={'500px'}
-      height={'500px'}
-      chartType="PieChart"
-      loader={<div>Loading Chart...</div>}
-      data={this.state.chartData}
-      options={{
-        title: 'Beer Styles of ' + this.props.activeMember,
-        colors: ['#008F8F', '#058f00', '#70008f'],
-      }}
-      rootProps={{ 'data-testid': '1' }}/>;
-
-    if (this.props.activeMember === '' && !this.props.data)
-      return(<div> Still loading chart...</div>);
-    return( 
-      <div className="member-chart" data-testid="MemberChart">
-        {chart}
-      </div>
-    );
+      return( 
+        <div className="member-chart" data-testid="MemberChart">
+          <LoadWrapper loading={this.state.loading} error={this.state.error}>
+            {this.getChart()}
+          </LoadWrapper>
+        </div>
+      );
   }
 }
-
-export default MemberChart;
+  export default MemberChart;

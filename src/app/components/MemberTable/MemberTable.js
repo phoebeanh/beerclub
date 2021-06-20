@@ -6,11 +6,11 @@ import MemberRow from './MemberRow/MemberRow';
 class MemberTable extends Component {
 
   render() {
-    const memberRows = this.props.members.map(member => 
-      <MemberRow className="member-row" key={member.name}
-      member={member.name} 
-      totalConsumption={this.findMemberConsumptionTotal(member)} 
-      setActiveMember={this.props.setActiveMember}/>);
+      const memberRows = this.props.members.map(member => 
+        <MemberRow className="member-row" key={member.name}
+        member={member.name} 
+        totalConsumption={this.findMemberConsumptionTotal(member)} 
+        setActiveMember={this.props.setActiveMember}/>);
     return(
       <div className="member-table">
         {/* Table Layout of Consumption per Member */}
