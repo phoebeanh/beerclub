@@ -14,7 +14,7 @@ class MemberTable extends Component {
     return(
       <div className="member-table">
         {/* Table Layout of Consumption per Member */}
-        <Table responsive>
+        <Table responsive hover>
           <thead>
             <tr>
               <th>Person</th>
